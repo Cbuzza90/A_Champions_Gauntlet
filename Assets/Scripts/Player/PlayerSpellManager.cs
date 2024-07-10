@@ -26,10 +26,12 @@ public class PlayerSpellManager : MonoBehaviour
 
     void HandleSpellSelection()
     {
+         /* 
         if (Input.GetKeyDown(KeyCode.Alpha1)) SelectSpellSlot(0);
         if (Input.GetKeyDown(KeyCode.Alpha2)) SelectSpellSlot(1);
         if (Input.GetKeyDown(KeyCode.Alpha3)) SelectSpellSlot(2);
         if (Input.GetKeyDown(KeyCode.Alpha4)) SelectSpellSlot(3);
+         */
     }
 
     void SelectSpellSlot(int slotIndex)
@@ -40,10 +42,12 @@ public class PlayerSpellManager : MonoBehaviour
 
     void HandleSpellCasting()
     {
-        if (Input.GetMouseButtonDown(1) && selectedSlot >= 0 && spellSlots[selectedSlot] != null)
+        /*
+         * if (Input.GetMouseButtonDown(1) && selectedSlot >= 0 && spellSlots[selectedSlot] != null)
         {
             CastSpell(spellSlots[selectedSlot]);
         }
+        */
     }
 
     void CastSpell(SpellScriptableObject spell)
