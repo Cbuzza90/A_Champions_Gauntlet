@@ -23,7 +23,7 @@ public class CharacterHealth : MonoBehaviour
     private void Update()
     {
         // Update the health bar position in FixedUpdate to ensure smooth following
-        Vector3 healthBarPosition = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 0.5f, 0));
+        Vector3 healthBarPosition = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 0.3f, 0));
         healthBarObject.transform.position = healthBarPosition;
     }
 

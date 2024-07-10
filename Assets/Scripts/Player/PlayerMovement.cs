@@ -17,6 +17,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float slideCooldownTimer = 0f; // Timer for the slide cooldown
     private Vector2 moveDirection = Vector2.zero;
 
+    private SpriteRenderer spriteRenderer;
+    [SerializeField] private Color immuneColor = new Color(0, 0, 0, 0);
+    [SerializeField] private Color normalColor = new Color(1, 1, 1, 1);
+
     // Attack Stages
     public BasicAttackStage currentBasicAttackStage = BasicAttackStage.None;
     public enum BasicAttackStage
@@ -40,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isAttacking;
     public bool isCasting;
     public bool isSliding;
+    public bool isImmune;
 
     // Animation States
     private string currentAnimationState;
@@ -51,13 +56,21 @@ public class PlayerMovement : MonoBehaviour
     const string PLAYER_ATTACK2 = "PlayerAttack2";
     const string PLAYER_ATTACK3 = "PlayerAttack3";
     const string PLAYER_SLIDE = "PlayerRoll";
+    const string PLAYER_AIRATTACK = "PlayerAirAttack1";
+    const string PLAYER_AIRROLL = "PlayerAirRoll";
     private Coroutine attackCoroutine;
 
     private void Awake()
     {
         // Initialize components
+        spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        if (spriteRenderer == null)
+        {
+            Debug.LogError("SpriteRenderer component not found on " + gameObject.name);
+        }
 
         // Ensure components are assigned
         if (rb == null)
@@ -95,8 +108,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleMovement();
-        
+        attackCooldownTime = 0.2f;
+        HandleMovement();        
         AttackCooldownTimer();
         SlideCooldownTimer();
     }
@@ -141,27 +154,56 @@ public class PlayerMovement : MonoBehaviour
 
     private void StartSlide()
     {
-        if (isGrounded && !isSliding && slideCooldownTimer <= 0f)
+        if (!isSliding && slideCooldownTimer <= 0f)
         {
-            StartCoroutine(SlideCoroutine());
+            if (isGrounded)
+            {
+                StartCoroutine(SlideOrAirRollCoroutine(true));
+            }
+            else
+            {
+                StartCoroutine(SlideOrAirRollCoroutine(false));
+            }
             slideCooldownTimer = slideCooldown;
         }
     }
 
-    private IEnumerator SlideCoroutine()
+
+    private IEnumerator SlideOrAirRollCoroutine(bool isGrounded)
     {
         isSliding = true;
+        isImmune = true;
+        spriteRenderer.color = immuneColor;
 
-        ChangeAnimationState(PLAYER_SLIDE);
+        if (isGrounded)
+        {
+            ChangeAnimationState(PLAYER_SLIDE);
+        }
+        else
+        {
+            ChangeAnimationState(PLAYER_AIRROLL);
+        }
 
-        // Get the direction of the slide based on the player's facing direction
-        float slideDirection = transform.localScale.x;
-        rb.velocity = new Vector2(slideDirection * slideSpeed, rb.velocity.y);
+        // Get the direction of the slide or roll based on the player's facing direction
+        float direction = transform.localScale.x;
+        rb.velocity = new Vector2(direction * slideSpeed, rb.velocity.y);
 
         yield return new WaitForSeconds(slideDuration);
 
+        isImmune = false;
         isSliding = false;
-        rb.velocity = new Vector2(0, rb.velocity.y); // Stop sliding
+        spriteRenderer.color = normalColor;
+
+        // Check if the player is falling after the slide/roll
+        if (!isGrounded && !isAttacking)
+        {
+            isFalling = true;
+            ChangeAnimationState(PLAYER_FALL);
+        }
+        else
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y); // Stop sliding or rolling
+        }
     }
 
     private void StartAttack()
@@ -219,7 +261,33 @@ public class PlayerMovement : MonoBehaviour
                 PerformBasicAttack();
             }
         }
+        else if (!isGrounded && !isSliding && !isAttacking)
+        {
+            StartCoroutine(AirAttackCoroutine());
+        }
     }
+
+
+    private IEnumerator AirAttackCoroutine()
+    {
+        isFalling = false;
+        isAttacking = true;
+        ChangeAnimationState(PLAYER_AIRATTACK);
+
+        // Get the length of the air attack animation
+        float airAttackDuration = anim.GetCurrentAnimatorStateInfo(0).length;
+        yield return new WaitForSeconds(airAttackDuration);
+
+        // Transition to fall animation if still in the air
+        if (!isGrounded && !isSliding)
+        {
+            isJumping = false;
+            isAttacking = false;
+            isFalling = true;
+            ChangeAnimationState(PLAYER_FALL);
+        }
+    }
+
 
     IEnumerator JumpCoroutine()
     {
@@ -231,13 +299,13 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(jumpAnimationDuration);
 
         // Transition to fall animation if still in the air
-        if (!isGrounded)
+        if (!isGrounded && !isSliding && !isAttacking)
         {
-            isFalling = true;
+            isJumping = false;
+            isFalling = true;            
             ChangeAnimationState(PLAYER_FALL);
         }
     }
-
     void PerformBasicAttack()
     {
         switch (currentBasicAttackStage)
@@ -310,6 +378,12 @@ public class PlayerMovement : MonoBehaviour
         if (isMoving && isGrounded && !isJumping && !isFalling && attackTimer <= 0 && !isSliding)
         {
             ChangeAnimationState(PLAYER_RUN);
+        }
+
+        // Falling
+        if (isFalling && !isGrounded && !isJumping && !isAttacking && !isSliding)
+        {
+            ChangeAnimationState(PLAYER_FALL);
         }
     }
 
