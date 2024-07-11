@@ -6,7 +6,7 @@ public class PlayerRunningState : PlayerBaseState
 
     public override void EnterState()
     {
-        if (controller.isGrounded)
+        if (controller.isGrounded && !controller.isAttacking)
         {
             controller.anim.Play("PlayerRun");
         }

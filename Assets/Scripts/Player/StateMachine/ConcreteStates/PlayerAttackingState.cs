@@ -8,13 +8,11 @@ public class PlayerAttackingState : PlayerBaseState
     public override void EnterState()
     {
         Debug.Log("Entering attacking state");        
-        controller.anim.Play(GetAnimationForCurrentStage());
         controller.isAttacking = true;
         controller.attackTimer = GetAttackDurationForCurrentStage(); // Set attack duration based on animation
         controller.attackTransitionTimer = controller.attackTimer + 1f; // Allow a transition window after the attack
         if (controller.currentAttackStage == BasicAttackStage.None) // If no attack stage is set, start from the beginning
         {
-            controller.attackCooldownTimer = 0.5f;
             SetupNextAttack();
         }
     }
@@ -46,8 +44,7 @@ public class PlayerAttackingState : PlayerBaseState
 
     public override void FixedUpdateState()
     {
-        // Implement physics-related attack logic here if needed
-        // If no specific FixedUpdate logic is needed, leave empty
+        controller.HandleMovement(); // Continue to allow horizontal movement well attacking
     }
 
     public override void ExitState()
@@ -64,8 +61,10 @@ public class PlayerAttackingState : PlayerBaseState
             controller.currentAttackStage++;            
             Debug.Log("Setting up next attack: " + controller.currentAttackStage);
             controller.attackTimer = GetAttackDurationForCurrentStage();
-            controller.attackTransitionTimer = controller.attackTimer + 1f;
+            controller.attackTransitionTimer = controller.attackTimer + 0.5f;
             controller.anim.Play(GetAnimationForCurrentStage());
+            
+            
         }
         else
         {
@@ -113,7 +112,7 @@ public class PlayerAttackingState : PlayerBaseState
 
     public void TrySetupNextAttack()
     {
-        if (controller.attackTransitionTimer > 0 && controller.attackTimer <= 0 && controller.attackCooldownTimer < 0)
+        if (controller.attackTransitionTimer > 0 && controller.attackTimer <= 0 && controller.attackCooldownTimer <= 0)
         {
             Debug.Log("Trying to setup next attack");
             controller.attackCooldownTimer = 0.5f;

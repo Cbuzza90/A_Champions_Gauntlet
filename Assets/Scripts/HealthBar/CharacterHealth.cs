@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CharacterHealth : MonoBehaviour
@@ -7,10 +8,12 @@ public class CharacterHealth : MonoBehaviour
     public GameObject healthBarPrefab; // Reference to the health bar prefab
     private HealthBarSlider healthBar; // Reference to the health bar script
     private GameObject healthBarObject; // Reference to the instantiated health bar object
+    private Rigidbody2D rb; // Rigidbody2D component
 
     private void Start()
     {
         currentHealth = maxHealth;
+        rb = GetComponent<Rigidbody2D>(); // Get the Rigidbody2D component
 
         // Instantiate the health bar prefab and set its parent to the Canvas
         healthBarObject = Instantiate(healthBarPrefab, transform.position, Quaternion.identity);
@@ -27,10 +30,16 @@ public class CharacterHealth : MonoBehaviour
         healthBarObject.transform.position = healthBarPosition;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Vector3 knockbackDirection, float knockbackForce)
     {
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        // Manually apply knockback for kinematic Rigidbody2D
+        if (rb != null && rb.isKinematic)
+        {
+            StartCoroutine(ApplyKnockback(knockbackDirection, knockbackForce));
+        }
 
         // Update the health bar
         healthBar.SetHealth(currentHealth / maxHealth);
@@ -38,6 +47,19 @@ public class CharacterHealth : MonoBehaviour
         if (currentHealth <= 0)
         {
             Die();
+        }
+    }
+
+    private IEnumerator ApplyKnockback(Vector3 direction, float force)
+    {
+        float duration = 0.2f; // Duration for how long the knockback should last
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
+        {
+            rb.MovePosition(rb.position + (Vector2)(direction.normalized * force * Time.deltaTime));
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
     }
 

@@ -10,4 +10,10 @@ public class PlayerDamage : MonoBehaviour
     {
         return damageAmount;
     }
+
+    // Method to calculate knockback direction
+    public Vector3 CalculateKnockbackDirection(Transform target)
+    {
+        return (target.position - transform.position).normalized;
+    }
 }

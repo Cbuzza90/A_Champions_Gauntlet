@@ -8,7 +8,15 @@ public class PlayerSlidingState : PlayerBaseState
 
     public override void EnterState()
     {
-        controller.anim.Play("PlayerSlide");
+        if (!controller.isGrounded)
+        {
+            controller.anim.Play("PlayerAirRoll");
+        }
+        else if (controller.isGrounded)
+        {
+            controller.anim.Play("PlayerRoll");
+        }
+        
         controller.isSliding = true;
         controller.isImmune = true;
         controller.spriteRenderer.color = controller.immuneColor;

@@ -6,7 +6,6 @@ public class PlayerHitBox : MonoBehaviour
 
     private void Start()
     {
-        // Assuming the PlayerDamage script is on the parent GameObject
         playerDamage = GetComponentInParent<PlayerDamage>();
     }
 
@@ -18,7 +17,8 @@ public class PlayerHitBox : MonoBehaviour
             if (enemyHealth != null)
             {
                 float damage = playerDamage.GetDamage();
-                enemyHealth.TakeDamage(damage);
+                Vector3 knockbackDirection = playerDamage.CalculateKnockbackDirection(other.transform);
+                enemyHealth.TakeDamage(damage, knockbackDirection, playerDamage.knockBackForce);
             }
         }
     }

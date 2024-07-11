@@ -17,7 +17,7 @@ public class PlayerStateController : MonoBehaviour
     public float slideSpeed = 2f;
     public float slideDuration = 0.4f;
     public float slideCooldown = 1.2f;
-    public Color immuneColor = new Color(0, 0, 0, 0);
+    public Color immuneColor = new Color(0, 0, 0, 0.5f);
     public Color normalColor = new Color(1, 1, 1, 1);
     public LayerMask groundLayer;
     public Transform groundCheck;
@@ -60,6 +60,7 @@ public class PlayerStateController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
         idleState = new PlayerIdleState(this);
         runningState = new PlayerRunningState(this);
         jumpingState = new PlayerJumpingState(this);
@@ -138,11 +139,11 @@ public class PlayerStateController : MonoBehaviour
     public void SetMoveDirection(Vector2 direction)
     {
         moveDirection = direction;
-        if (direction.x != 0)
+        if (direction.x != 0 && !isAttacking)
         {
             TransitionToState(runningState);
         }
-        else if (!isGrounded)
+        else if (!isGrounded && !isAttacking)
         {
             TransitionToState(fallingState);
         }
@@ -170,7 +171,7 @@ public class PlayerStateController : MonoBehaviour
 
     public void Slide()
     {
-        if (isGrounded && !isSliding && slideCooldownTimer <= 0)
+        if (!isSliding && slideCooldownTimer <= 0)
         {
             TransitionToState(slidingState);
         }
