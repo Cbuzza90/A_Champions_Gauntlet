@@ -6,17 +6,23 @@ public class PlayerRunningState : PlayerBaseState
 
     public override void EnterState()
     {
-        controller.anim.Play("PlayerRun");
+        if (controller.isGrounded)
+        {
+            controller.anim.Play("PlayerRun");
+        }
+        
     }
 
     public override void UpdateState()
     {
-        if (controller.moveDirection == Vector2.zero)
+        if (controller.moveDirection == Vector2.zero && controller.isGrounded)
         {
+            Debug.Log("Transitioning to idle state from running state");
             controller.TransitionToState(controller.idleState);
         }
         if (!controller.isGrounded)
         {
+            Debug.Log("Transitioning to falling state from running state");
             controller.TransitionToState(controller.fallingState);
         }
     }

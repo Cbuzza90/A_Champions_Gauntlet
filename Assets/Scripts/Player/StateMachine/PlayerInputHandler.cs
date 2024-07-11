@@ -14,11 +14,11 @@ public class PlayerInputHandler : MonoBehaviour
         // Movement input
         playerInputActions.Player.Move.performed += ctx => {
             Vector2 input = ctx.ReadValue<Vector2>();
-            Debug.Log("Move input: " + input);
+            //Debug.Log("Move input: " + input);
             stateController.SetMoveDirection(input);
         };
         playerInputActions.Player.Move.canceled += ctx => {
-            Debug.Log("Move input canceled");
+            //Debug.Log("Move input canceled");
             stateController.SetMoveDirection(Vector2.zero);
         };
 

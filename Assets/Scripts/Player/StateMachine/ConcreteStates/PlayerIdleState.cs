@@ -11,7 +11,7 @@ public class PlayerIdleState : PlayerBaseState
 
     public override void UpdateState()
     {
-        if (controller.moveDirection != Vector2.zero)
+        if (controller.moveDirection != Vector2.zero && controller.isGrounded)
         {
             controller.TransitionToState(controller.runningState);
         }

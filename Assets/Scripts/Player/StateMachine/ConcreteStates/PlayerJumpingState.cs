@@ -9,6 +9,7 @@ public class PlayerJumpingState : PlayerBaseState
         controller.anim.Play("PlayerJump");
         controller.rb.velocity = new Vector2(controller.rb.velocity.x, controller.jumpForce);
         controller.isGrounded = false;
+        controller.isJumping = true;
     }
 
     public override void UpdateState()
@@ -26,6 +27,6 @@ public class PlayerJumpingState : PlayerBaseState
 
     public override void ExitState()
     {
-        // Any cleanup if needed
+        controller.isJumping = false;
     }
 }
