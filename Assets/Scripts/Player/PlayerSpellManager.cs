@@ -1,68 +1,108 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using TMPro;
 
 public class PlayerSpellManager : MonoBehaviour
 {
+    private PlayerInputActions inputActions;
+    private PlayerStateController playerController;
     public SpellScriptableObject[] spellSlots = new SpellScriptableObject[4];
     private int selectedSlot = -1;
 
-
-    private void Start()
+    private void Awake()
     {
+        inputActions = new PlayerInputActions();
+
+        inputActions.Player.SelectSpell1.performed += _ => SelectSpellSlot(0);
+        inputActions.Player.SelectSpell2.performed += _ => SelectSpellSlot(1);
+        inputActions.Player.SelectSpell3.performed += _ => SelectSpellSlot(2);
+        inputActions.Player.SelectSpell4.performed += _ => SelectSpellSlot(3);
+
+        inputActions.Player.Cast.performed += _ => CastSelectedSpell();
     }
 
-    void Update()
+    private void OnEnable()
     {
-        HandleSpellSelection();
-        HandleSpellCasting();
+        inputActions.Player.Enable();
     }
 
-    private void FixedUpdate()
+    private void OnDisable()
     {
-        
-    }
-    
-
-    void HandleSpellSelection()
-    {
-         /* 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) SelectSpellSlot(0);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) SelectSpellSlot(1);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) SelectSpellSlot(2);
-        if (Input.GetKeyDown(KeyCode.Alpha4)) SelectSpellSlot(3);
-         */
+        inputActions.Player.Disable();
     }
 
-    void SelectSpellSlot(int slotIndex)
+    private void SelectSpellSlot(int slotIndex)
     {
         selectedSlot = slotIndex;
         UpdateSelectedSlotUI();
+        Debug.Log("Selected slot: " + selectedSlot);
     }
 
-    void HandleSpellCasting()
+    private void CastSelectedSpell()
     {
-        /*
-         * if (Input.GetMouseButtonDown(1) && selectedSlot >= 0 && spellSlots[selectedSlot] != null)
+        if (selectedSlot >= 0 && spellSlots[selectedSlot] != null)
         {
             CastSpell(spellSlots[selectedSlot]);
         }
-        */
     }
 
-    void CastSpell(SpellScriptableObject spell)
+    private void CastSpell(SpellScriptableObject spell)
     {
-        Debug.Log("Casting a spell");
-        //if (spell.spellPrefab != null)
+        Debug.Log("Casting spell: " + spell.spellName);
+
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        mousePosition.z = 0;
+        Vector3 direction = (mousePosition - transform.position).normalized;
+
+        if (spell.spellName == "FrostBoomerang")
         {
-        //    Instantiate(spell.spellPrefab, transform.position, transform.rotation);
+            if (playerController.FrostBoomerangeCharges > 0)
+            {
+                FrostBoomerang.CastBoomerang(spell, transform.position, transform);
+                playerController.FrostBoomerangeCharges--; // Decrement charges here
+            }
         }
+        else
+        {
+            GameObject spellPrefab = Instantiate(spell.spellPrefab, transform.position, Quaternion.identity);
+            spellPrefab.transform.right = direction; // Directly apply direction to all spells
+
+            Fireball fireball = spellPrefab.GetComponent<Fireball>();
+            if (fireball != null)
+            {
+                fireball.spellData = spell;
+            }
+
+            GlacialSpike glacialSpike = spellPrefab.GetComponent<GlacialSpike>();
+            if (glacialSpike != null)
+            {
+                glacialSpike.spellData = spell;
+                glacialSpike.shootDirection = direction;
+            }
+
+            FlipCharacter(direction.x);
+        }
+    }
+
+
+    private void FlipCharacter(float directionX)
+    {
+        Vector3 characterScale = transform.localScale;
+        if (directionX > 0 && characterScale.x < 0 || directionX < 0 && characterScale.x > 0)
+        {
+            characterScale.x *= -1;
+        }
+        transform.localScale = characterScale;
     }
 
     public void BindSpellToSlot(SpellScriptableObject spell, int slotIndex)
     {
-        spellSlots[slotIndex] = spell;
-        UpdateSpellSlotUI(slotIndex, spell);
+        if (slotIndex >= 0 && slotIndex < spellSlots.Length)
+        {
+            spellSlots[slotIndex] = spell;
+            UpdateSpellSlotUI(slotIndex, spell);
+            Debug.Log("Bound " + spell.spellName + " to slot " + slotIndex);
+        }
     }
 
     private void UpdateSpellSlotUI(int slotIndex, SpellScriptableObject spell)
@@ -79,7 +119,6 @@ public class PlayerSpellManager : MonoBehaviour
 
     private void UpdateSelectedSlotUI()
     {
-        // Implement logic to visually indicate which slot is selected
         Transform spellSlotPanel = GameObject.Find("SpellSlotsPanel").transform;
 
         for (int i = 0; i < spellSlotPanel.childCount; i++)
@@ -87,7 +126,7 @@ public class PlayerSpellManager : MonoBehaviour
             Image slotImage = spellSlotPanel.GetChild(i).GetComponent<Image>();
             if (slotImage != null)
             {
-                slotImage.color = (i == selectedSlot) ? Color.green : Color.white; // Change color to indicate selected slot
+                slotImage.color = (i == selectedSlot) ? Color.green : Color.white;
             }
         }
     }

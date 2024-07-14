@@ -29,14 +29,15 @@ public class PlayerStateController : MonoBehaviour
     public float attackTimer;
     public float attackCooldownTimer;
     public BasicAttackStage currentAttackStage = BasicAttackStage.None;
-
-    public enum BasicAttackStage
+        public enum BasicAttackStage
     {
         None,
         Stage1,
         Stage2,
         Stage3
     }
+
+    public float FrostBoomerangeCharges = 3;
 
     [Header("Runtime Variables")]
     public Vector2 moveDirection = Vector2.zero;
@@ -179,7 +180,7 @@ public class PlayerStateController : MonoBehaviour
 
     public void Cast()
     {
-        if (!isAttacking)
+        if (!isAttacking & !isCasting)
         {
             TransitionToState(castingState);
         }

@@ -89,6 +89,42 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectSpell1"",
+                    ""type"": ""Button"",
+                    ""id"": ""283cdb57-adf1-47cb-b7fb-effd597c5c1f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectSpell2"",
+                    ""type"": ""Button"",
+                    ""id"": ""3e34e310-25ae-4d9e-8108-bd813dd8d08f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectSpell3"",
+                    ""type"": ""Button"",
+                    ""id"": ""1061fa29-ca60-402c-9142-e0954f862120"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectSpell4"",
+                    ""type"": ""Button"",
+                    ""id"": ""63063c34-f2aa-421f-a395-384aaedcb9ff"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -355,6 +391,50 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Cast"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""47e555bb-87e9-4b5d-aee0-a501e56c1441"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SelectSpell1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""66568194-d214-4198-83a9-b081356b1678"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectSpell2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4bab5ce8-fb15-4693-84f5-dbbe991ac3ce"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SelectSpell3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""56ed6618-7786-4de3-9ca2-0ddd52aca1c7"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SelectSpell4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -448,6 +528,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""8fb25637-6452-4e3b-88e0-fa6c73bae37f"",
                     ""expectedControlType"": ""Quaternion"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleSkillPanel"",
+                    ""type"": ""Button"",
+                    ""id"": ""39787067-2d5a-4876-b832-009b497c225e"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -871,6 +960,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""TrackedDeviceOrientation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""64761117-7af9-43b1-a5be-5194d41e8eea"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""ToggleSkillPanel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -947,6 +1047,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Slide = m_Player.FindAction("Slide", throwIfNotFound: true);
         m_Player_Cast = m_Player.FindAction("Cast", throwIfNotFound: true);
+        m_Player_SelectSpell1 = m_Player.FindAction("SelectSpell1", throwIfNotFound: true);
+        m_Player_SelectSpell2 = m_Player.FindAction("SelectSpell2", throwIfNotFound: true);
+        m_Player_SelectSpell3 = m_Player.FindAction("SelectSpell3", throwIfNotFound: true);
+        m_Player_SelectSpell4 = m_Player.FindAction("SelectSpell4", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -959,6 +1063,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        m_UI_ToggleSkillPanel = m_UI.FindAction("ToggleSkillPanel", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1027,6 +1132,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Slide;
     private readonly InputAction m_Player_Cast;
+    private readonly InputAction m_Player_SelectSpell1;
+    private readonly InputAction m_Player_SelectSpell2;
+    private readonly InputAction m_Player_SelectSpell3;
+    private readonly InputAction m_Player_SelectSpell4;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -1038,6 +1147,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Slide => m_Wrapper.m_Player_Slide;
         public InputAction @Cast => m_Wrapper.m_Player_Cast;
+        public InputAction @SelectSpell1 => m_Wrapper.m_Player_SelectSpell1;
+        public InputAction @SelectSpell2 => m_Wrapper.m_Player_SelectSpell2;
+        public InputAction @SelectSpell3 => m_Wrapper.m_Player_SelectSpell3;
+        public InputAction @SelectSpell4 => m_Wrapper.m_Player_SelectSpell4;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1068,6 +1181,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Cast.started += instance.OnCast;
             @Cast.performed += instance.OnCast;
             @Cast.canceled += instance.OnCast;
+            @SelectSpell1.started += instance.OnSelectSpell1;
+            @SelectSpell1.performed += instance.OnSelectSpell1;
+            @SelectSpell1.canceled += instance.OnSelectSpell1;
+            @SelectSpell2.started += instance.OnSelectSpell2;
+            @SelectSpell2.performed += instance.OnSelectSpell2;
+            @SelectSpell2.canceled += instance.OnSelectSpell2;
+            @SelectSpell3.started += instance.OnSelectSpell3;
+            @SelectSpell3.performed += instance.OnSelectSpell3;
+            @SelectSpell3.canceled += instance.OnSelectSpell3;
+            @SelectSpell4.started += instance.OnSelectSpell4;
+            @SelectSpell4.performed += instance.OnSelectSpell4;
+            @SelectSpell4.canceled += instance.OnSelectSpell4;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1093,6 +1218,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Cast.started -= instance.OnCast;
             @Cast.performed -= instance.OnCast;
             @Cast.canceled -= instance.OnCast;
+            @SelectSpell1.started -= instance.OnSelectSpell1;
+            @SelectSpell1.performed -= instance.OnSelectSpell1;
+            @SelectSpell1.canceled -= instance.OnSelectSpell1;
+            @SelectSpell2.started -= instance.OnSelectSpell2;
+            @SelectSpell2.performed -= instance.OnSelectSpell2;
+            @SelectSpell2.canceled -= instance.OnSelectSpell2;
+            @SelectSpell3.started -= instance.OnSelectSpell3;
+            @SelectSpell3.performed -= instance.OnSelectSpell3;
+            @SelectSpell3.canceled -= instance.OnSelectSpell3;
+            @SelectSpell4.started -= instance.OnSelectSpell4;
+            @SelectSpell4.performed -= instance.OnSelectSpell4;
+            @SelectSpell4.canceled -= instance.OnSelectSpell4;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1124,6 +1261,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_RightClick;
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
+    private readonly InputAction m_UI_ToggleSkillPanel;
     public struct UIActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -1138,6 +1276,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
         public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
+        public InputAction @ToggleSkillPanel => m_Wrapper.m_UI_ToggleSkillPanel;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1177,6 +1316,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
+            @ToggleSkillPanel.started += instance.OnToggleSkillPanel;
+            @ToggleSkillPanel.performed += instance.OnToggleSkillPanel;
+            @ToggleSkillPanel.canceled += instance.OnToggleSkillPanel;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1211,6 +1353,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @TrackedDeviceOrientation.started -= instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.performed -= instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.canceled -= instance.OnTrackedDeviceOrientation;
+            @ToggleSkillPanel.started -= instance.OnToggleSkillPanel;
+            @ToggleSkillPanel.performed -= instance.OnToggleSkillPanel;
+            @ToggleSkillPanel.canceled -= instance.OnToggleSkillPanel;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1282,6 +1427,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnSlide(InputAction.CallbackContext context);
         void OnCast(InputAction.CallbackContext context);
+        void OnSelectSpell1(InputAction.CallbackContext context);
+        void OnSelectSpell2(InputAction.CallbackContext context);
+        void OnSelectSpell3(InputAction.CallbackContext context);
+        void OnSelectSpell4(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -1295,5 +1444,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+        void OnToggleSkillPanel(InputAction.CallbackContext context);
     }
 }

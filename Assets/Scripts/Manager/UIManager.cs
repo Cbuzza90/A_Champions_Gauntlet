@@ -1,25 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject spellSelectionPanel;
+    public GameObject skillPanel;
+    private PlayerInputActions playerInputActions;
+    private InputAction toggleSkillPanelAction;
 
-    void Update()
+    void Awake()
     {
+        // Initialize the input system actions
+        playerInputActions = new PlayerInputActions();
 
-        /*{
-            ToggleSpellSelectionPanel();
-        }
-        */
+        // Subscribe to the toggle action event
+        toggleSkillPanelAction = playerInputActions.UI.ToggleSkillPanel;
+        toggleSkillPanelAction.Enable();
+        toggleSkillPanelAction.performed += ToggleSkillPanel;
     }
 
-    void ToggleSpellSelectionPanel()
+    void OnDestroy()
     {
-        if (spellSelectionPanel != null)
+        // Cleanup - unsubscribe from the event
+        toggleSkillPanelAction.Disable();
+        toggleSkillPanelAction.performed -= ToggleSkillPanel;
+    }
+
+    private void ToggleSkillPanel(InputAction.CallbackContext context)
+    {
+        if (skillPanel != null)
         {
-            spellSelectionPanel.SetActive(!spellSelectionPanel.activeSelf);
+            skillPanel.SetActive(!skillPanel.activeSelf);
+            Debug.Log("Skill Panel Toggled: " + skillPanel.activeSelf);
         }
     }
 }

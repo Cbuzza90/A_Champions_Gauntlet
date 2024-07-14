@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class SpellIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -8,6 +9,28 @@ public class SpellIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     private bool isHovered;
     private PlayerSpellManager player;
     private Image iconImage;
+
+    private PlayerInputActions inputActions;
+
+    void Awake()
+    {
+        inputActions = new PlayerInputActions();
+
+        inputActions.Player.SelectSpell1.performed += _ => TryBindSpellToSlot(0);
+        inputActions.Player.SelectSpell2.performed += _ => TryBindSpellToSlot(1);
+        inputActions.Player.SelectSpell3.performed += _ => TryBindSpellToSlot(2);
+        inputActions.Player.SelectSpell4.performed += _ => TryBindSpellToSlot(3);
+    }
+
+    void OnEnable()
+    {
+        inputActions.Player.Enable();
+    }
+
+    void OnDisable()
+    {
+        inputActions.Player.Disable();
+    }
 
     void Start()
     {
@@ -24,29 +47,17 @@ public class SpellIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         }
     }
 
-    void Update()
+    void TryBindSpellToSlot(int slotIndex)
     {
         if (isHovered)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (player != null)
             {
-                if (player != null) player.BindSpellToSlot(spell, 0);
-                else Debug.LogError("Player component not assigned.");
+                player.BindSpellToSlot(spell, slotIndex);
             }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
+            else
             {
-                if (player != null) player.BindSpellToSlot(spell, 1);
-                else Debug.LogError("Player component not assigned.");
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                if (player != null) player.BindSpellToSlot(spell, 2);
-                else Debug.LogError("Player component not assigned.");
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                if (player != null) player.BindSpellToSlot(spell, 3);
-                else Debug.LogError("Player component not assigned.");
+                Debug.LogError("Player component not assigned.");
             }
         }
     }

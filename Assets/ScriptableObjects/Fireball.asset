@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd94aa7c41d6ac4fbc2706bbff8c560, type: 3}
   m_Name: Fireball
   m_EditorClassIdentifier: 
-  DamageAmount: 10
-  LifeSpan: 5
-  Speed: 10
+  DamageAmount: 5
+  LifeSpan: 3
+  Speed: 5
   Cooldown: 5
   SpellRadius: 0.5
+  spellPrefab: {fileID: 5001464226756916984, guid: c028c412e901d5740a17ff92c1a0cb5d, type: 3}
   icon: {fileID: 21300000, guid: fed04d5a62f75af4aa5a51ae9308bbd1, type: 3}
   spellName: Fire Ball

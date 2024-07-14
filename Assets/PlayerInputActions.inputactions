@@ -67,6 +67,42 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SelectSpell1",
+                    "type": "Button",
+                    "id": "283cdb57-adf1-47cb-b7fb-effd597c5c1f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectSpell2",
+                    "type": "Button",
+                    "id": "3e34e310-25ae-4d9e-8108-bd813dd8d08f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectSpell3",
+                    "type": "Button",
+                    "id": "1061fa29-ca60-402c-9142-e0954f862120",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectSpell4",
+                    "type": "Button",
+                    "id": "63063c34-f2aa-421f-a395-384aaedcb9ff",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -333,6 +369,50 @@
                     "action": "Cast",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "47e555bb-87e9-4b5d-aee0-a501e56c1441",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SelectSpell1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "66568194-d214-4198-83a9-b081356b1678",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectSpell2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4bab5ce8-fb15-4693-84f5-dbbe991ac3ce",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SelectSpell3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "56ed6618-7786-4de3-9ca2-0ddd52aca1c7",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SelectSpell4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -426,6 +506,15 @@
                     "type": "PassThrough",
                     "id": "8fb25637-6452-4e3b-88e0-fa6c73bae37f",
                     "expectedControlType": "Quaternion",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleSkillPanel",
+                    "type": "Button",
+                    "id": "39787067-2d5a-4876-b832-009b497c225e",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -847,6 +936,17 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "64761117-7af9-43b1-a5be-5194d41e8eea",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "ToggleSkillPanel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
