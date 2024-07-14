@@ -74,7 +74,6 @@ public class FrostBoomerang : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (returning) return;
 
         if (other.CompareTag("Enemy"))
         {

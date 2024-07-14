@@ -9,6 +9,8 @@ public class CharacterHealth : MonoBehaviour
     private HealthBarSlider healthBar; // Reference to the health bar script
     private GameObject healthBarObject; // Reference to the instantiated health bar object
     private Rigidbody2D rb; // Rigidbody2D component
+    private Coroutine poisonCoroutine; // To manage poison effect coroutine
+    private bool isPoisoned = false; // To track if the character is currently poisoned
 
     private void Start()
     {
@@ -25,18 +27,18 @@ public class CharacterHealth : MonoBehaviour
 
     private void Update()
     {
-        // Update the health bar position in FixedUpdate to ensure smooth following
+        // Update the health bar position to ensure smooth following
         Vector3 healthBarPosition = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 0.3f, 0));
         healthBarObject.transform.position = healthBarPosition;
     }
 
-    public void TakeDamage(float damage, Vector3 knockbackDirection, float knockbackForce)
+    public void TakeDamage(float damage, Vector3 knockbackDirection = default, float knockbackForce = 0)
     {
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         // Manually apply knockback for kinematic Rigidbody2D
-        if (rb != null && rb.isKinematic)
+        if (rb != null && rb.isKinematic && knockbackForce > 0)
         {
             StartCoroutine(ApplyKnockback(knockbackDirection, knockbackForce));
         }
@@ -48,6 +50,30 @@ public class CharacterHealth : MonoBehaviour
         {
             Die();
         }
+    }
+
+    public IEnumerator ApplyPoison(float poisonDamage, int ticks, float tickInterval)
+    {
+        if (isPoisoned)
+        {
+            yield break; // Prevent multiple poison effects at the same time
+        }
+
+        isPoisoned = true;
+
+        // Change color to indicate poison effect
+        Color originalColor = GetComponent<SpriteRenderer>().color;
+        GetComponent<SpriteRenderer>().color = Color.green;
+
+        for (int i = 0; i < ticks; i++)
+        {
+            TakeDamage(poisonDamage);
+            yield return new WaitForSeconds(tickInterval);
+        }
+
+        // Reset color after poison effect
+        GetComponent<SpriteRenderer>().color = originalColor;
+        isPoisoned = false;
     }
 
     private IEnumerator ApplyKnockback(Vector3 direction, float force)

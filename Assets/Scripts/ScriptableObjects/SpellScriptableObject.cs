@@ -13,4 +13,10 @@ public class SpellScriptableObject : ScriptableObject
     public GameObject spellPrefab;
     public Sprite icon;
     public string spellName;
+
+
+    // Poison-specific properties
+    public float PoisonDamage;
+    public int PoisonTicks;
+    public float PoisonInterval;
 }

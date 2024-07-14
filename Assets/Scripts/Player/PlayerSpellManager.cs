@@ -80,10 +80,15 @@ public class PlayerSpellManager : MonoBehaviour
                 glacialSpike.shootDirection = direction;
             }
 
+            PoisonSpear poisonSpear = spellPrefab.GetComponent<PoisonSpear>();
+            if (poisonSpear != null)
+            {
+                poisonSpear.spellData = spell;
+            }
+
             FlipCharacter(direction.x);
         }
     }
-
 
     private void FlipCharacter(float directionX)
     {
