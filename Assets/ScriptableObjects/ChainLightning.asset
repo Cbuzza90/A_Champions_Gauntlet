@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2dd94aa7c41d6ac4fbc2706bbff8c560, type: 3}
-  m_Name: PoisonBall
+  m_Name: ChainLightning
   m_EditorClassIdentifier: 
   DamageAmount: 10
   LifeSpan: 5
