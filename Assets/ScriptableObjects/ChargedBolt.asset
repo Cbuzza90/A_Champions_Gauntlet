@@ -24,6 +24,6 @@ MonoBehaviour:
   PoisonDamage: 0
   PoisonTicks: 0
   PoisonInterval: 0
-  numberOfChainHits: 44
+  numberOfChainHits: 4
   chainRadius: 5
   numberOfBolts: 6

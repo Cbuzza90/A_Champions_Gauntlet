@@ -71,20 +71,8 @@ public class CharacterHealth : MonoBehaviour
         GameObject damageNumberObject = Instantiate(damageNumberPrefab, transform.position, Quaternion.identity);
         Debug.Log("Instantiated damage number prefab.");
 
-        GameObject damageCanvas = GameObject.Find("DamageCanvas");
-        if (damageCanvas == null)
-        {
-            Debug.LogError("DamageCanvas not found in the scene.");
-            Destroy(damageNumberObject);
-            return;
-        }
-
         // Set the parent to the canvas
-        damageNumberObject.transform.SetParent(damageCanvas.transform, false);
-
-        // Convert world position to screen position for the UI
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position + new Vector3(2f, 0.15f, 0)); // Adjusted to be slightly below the health bar
-        damageNumberObject.transform.position = screenPosition;
+        damageNumberObject.transform.SetParent(GameObject.Find("DamageCanvas").transform, false);
 
         DamageNumber damageNumber = damageNumberObject.GetComponent<DamageNumber>();
         if (damageNumber == null)
@@ -95,6 +83,7 @@ public class CharacterHealth : MonoBehaviour
         }
 
         damageNumber.SetDamage(damage);
+        damageNumber.SetTarget(transform); // Set the target to this enemy
     }
 
     public IEnumerator ApplyPoison(float poisonDamage, int ticks, float tickInterval)

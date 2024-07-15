@@ -1,40 +1,68 @@
-using UnityEngine;
+using System.Collections;
 using TMPro;
+using UnityEngine;
 
 public class DamageNumber : MonoBehaviour
 {
-    public float moveSpeed = 1f;
-    public float fadeDuration = 1f;
+    private TextMeshProUGUI damageText;
+    private Transform targetTransform;
 
-    private TMP_Text damageText;
-    private float startTime;
-
-    void Awake()
+    private void Awake()
     {
-        damageText = GetComponent<TMP_Text>();
-    }
-
-    void Start()
-    {
-        startTime = Time.time;
-        Destroy(gameObject, fadeDuration);
-    }
-
-    void Update()
-    {
-        // Move the text upwards
-        transform.position += Vector3.up * moveSpeed * Time.deltaTime;
-
-        // Fade out the text
-        float elapsedTime = Time.time - startTime;
-        float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
-        Color color = damageText.color;
-        color.a = alpha;
-        damageText.color = color;
+        damageText = GetComponent<TextMeshProUGUI>();
     }
 
     public void SetDamage(float damage)
     {
         damageText.text = damage.ToString();
+        StartCoroutine(FadeAndMoveEffect()); // Start the fade and move effect when the damage number is set
+    }
+
+    public void SetTarget(Transform target)
+    {
+        targetTransform = target;
+    }
+
+    private void Update()
+    {
+        if (targetTransform != null)
+        {
+            // Convert the target's position to screen space
+            Vector3 screenPosition = Camera.main.WorldToScreenPoint(targetTransform.position + new Vector3(2.3f, 0.5f, 0));
+            transform.position = screenPosition;
+        }
+    }
+
+    private IEnumerator FadeAndMoveEffect()
+    {
+        float duration = 0.5f; // Duration of the effect
+        float elapsedTime = 0f;
+        Vector3 startPosition = transform.localPosition;
+        Vector3 endPosition = startPosition + new Vector3(0, 50, 0); // Move upwards
+
+        Color startColor = damageText.color;
+        Color endColor = new Color(startColor.r, startColor.g, startColor.b, 0); // Fade to transparent
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / duration;
+
+            // Interpolate color
+            damageText.color = Color.Lerp(startColor, endColor, t);
+
+            // Update position relative to the target's screen position
+            if (targetTransform != null)
+            {
+                Vector3 screenPosition = Camera.main.WorldToScreenPoint(targetTransform.position + new Vector3(2.3f, -0.5f, 0));
+                transform.position = screenPosition + new Vector3(0, 50 * t, 0);
+            }
+
+            yield return null;
+        }
+
+        // Ensure it's fully transparent and destroy the object
+        damageText.color = endColor;
+        Destroy(gameObject);
     }
 }
