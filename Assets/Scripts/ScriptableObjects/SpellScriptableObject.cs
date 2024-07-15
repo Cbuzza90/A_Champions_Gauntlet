@@ -14,9 +14,15 @@ public class SpellScriptableObject : ScriptableObject
     public Sprite icon;
     public string spellName;
 
-
     // Poison-specific properties
     public float PoisonDamage;
     public int PoisonTicks;
     public float PoisonInterval;
+
+    // Fields specific to ChainLightning
+    public int numberOfChainHits = 4;
+    public float chainRadius = 5f;
+
+    // Fields specific to ChargedBolt
+    public int numberOfBolts = 6;
 }

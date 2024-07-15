@@ -12,10 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd94aa7c41d6ac4fbc2706bbff8c560, type: 3}
   m_Name: Poison Spear
   m_EditorClassIdentifier: 
-  DamageAmount: 10
-  LifeSpan: 5
-  Speed: 10
+  DamageAmount: 0
+  LifeSpan: 3
+  Speed: 5
   Cooldown: 5
   SpellRadius: 0.5
+  glacialSpikeChargeTime: 2
+  spellPrefab: {fileID: 8766380256788450705, guid: 54baf519a0b0edc4ea4b09ff08f14cb6, type: 3}
   icon: {fileID: 21300000, guid: c55bb2a55379d424f8357c3248e8c65f, type: 3}
   spellName: Poison Spear
+  PoisonDamage: 8
+  PoisonTicks: 5
+  PoisonInterval: 2
+  numberOfChainHits: 4
+  chainRadius: 5
+  numberOfBolts: 3

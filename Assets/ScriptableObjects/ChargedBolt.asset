@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dd94aa7c41d6ac4fbc2706bbff8c560, type: 3}
+  m_Name: ChargedBolt
+  m_EditorClassIdentifier: 
+  DamageAmount: 10
+  LifeSpan: 2.5
+  Speed: 3.5
+  Cooldown: 5
+  SpellRadius: 0.5
+  glacialSpikeChargeTime: 2
+  spellPrefab: {fileID: 3669687841940458017, guid: 9948e54894284c443bfc7d9ccf107010, type: 3}
+  icon: {fileID: 2011346167, guid: 8c8c4cef818529c4cbb8530f0ce7a5e3, type: 3}
+  spellName: ChargedBolt
+  PoisonDamage: 0
+  PoisonTicks: 0
+  PoisonInterval: 0
+  numberOfChainHits: 44
+  chainRadius: 5
+  numberOfBolts: 6

@@ -14,10 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DamageAmount: 10
   LifeSpan: 5
-  Speed: 10
+  Speed: 6
   Cooldown: 5
   SpellRadius: 0.5
   glacialSpikeChargeTime: 2
-  spellPrefab: {fileID: 0}
+  spellPrefab: {fileID: 6341950835583867757, guid: f7eac462d63e23f4c8fe1961486e7ce7, type: 3}
   icon: {fileID: 21300000, guid: 2565394c64a81874992405c8a5cf2862, type: 3}
   spellName: Frost Boomerang
+  PoisonDamage: 0
+  PoisonTicks: 0
+  PoisonInterval: 0
+  numberOfChainHits: 4
+  chainRadius: 5
+  numberOfBolts: 3

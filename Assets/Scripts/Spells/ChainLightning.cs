@@ -1,96 +1,86 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.InputSystem;
+using System.Collections;
 
 public class ChainLightning : MonoBehaviour
 {
     public SpellScriptableObject spellData;
-    public int numberOfChainHits = 4;
-    public float chainRadius = 5f;
-    public GameObject lightningPrefab; // Prefab of the lightning effect
-
-    private Vector3 initialPosition;
-    private Vector3 direction;
-    private Rigidbody2D rb;
-    private Transform playerTransform;
+    private List<GameObject> hitTargets = new List<GameObject>();
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        initialPosition = transform.position;
-
-        // Calculate initial direction towards the mouse position
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         mousePosition.z = 0;
-        direction = (mousePosition - initialPosition).normalized;
-        rb.velocity = direction * spellData.Speed; // Initial velocity towards the target
 
-        Debug.Log("ChainLightning Initial Position: " + initialPosition);
-        Debug.Log("Mouse Position: " + mousePosition);
-        Debug.Log("ChainLightning Direction: " + direction);
+        // Stretch towards the initial target (mouse position)
+        StretchToTarget(transform.position, mousePosition);
+        Destroy(gameObject, spellData.LifeSpan);
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy") && !hitTargets.Contains(other.gameObject))
         {
-            ChainLightningHit(other.transform);
-        }
-    }
-
-    void ChainLightningHit(Transform target)
-    {
-        StartCoroutine(ChainLightningEffect(target));
-    }
-
-    IEnumerator ChainLightningEffect(Transform target)
-    {
-        int chainHits = 0;
-        Transform currentTarget = target;
-
-        while (chainHits < numberOfChainHits)
-        {
-            if (currentTarget == null)
-                yield break;
-
-            // Apply damage to the current target
-            CharacterHealth enemyHealth = currentTarget.GetComponent<CharacterHealth>();
+            hitTargets.Add(other.gameObject);
+            CharacterHealth enemyHealth = other.GetComponent<CharacterHealth>();
             if (enemyHealth != null)
             {
-                enemyHealth.TakeDamage(spellData.DamageAmount, Vector3.zero, 0);
+                enemyHealth.TakeDamage(spellData.DamageAmount);
             }
 
-            // Find the next target within the chain radius
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(currentTarget.position, chainRadius);
-            Transform nextTarget = null;
-            foreach (Collider2D collider in colliders)
-            {
-                if (collider.CompareTag("Enemy") && collider.transform != currentTarget)
-                {
-                    nextTarget = collider.transform;
-                    break;
-                }
-            }
-
-            // Create lightning effect between targets
-            if (nextTarget != null)
-            {
-                GameObject lightning = Instantiate(lightningPrefab, currentTarget.position, Quaternion.identity);
-                // Adjust the lightning's position, rotation, and scale to connect currentTarget and nextTarget
-                Vector3 direction = (nextTarget.position - currentTarget.position).normalized;
-                float distance = Vector3.Distance(currentTarget.position, nextTarget.position);
-                lightning.transform.right = direction;
-                lightning.transform.localScale = new Vector3(distance, lightning.transform.localScale.y, lightning.transform.localScale.z);
-                Destroy(lightning, 0.5f); // Destroy the lightning effect after a short duration
-            }
-
-            currentTarget = nextTarget;
-            chainHits++;
-            yield return new WaitForSeconds(0.1f); // Short delay between chain hits
+            StartCoroutine(ChainToNextTarget(other.transform.position));
         }
+    }
 
-        // Destroy the initial lightning bolt after chaining is done
-        Destroy(gameObject);
+    private IEnumerator ChainToNextTarget(Vector3 currentTargetPosition)
+    {
+        yield return new WaitForSeconds(0.1f); // Small delay between chains
+
+        Collider2D[] nearbyTargets = Physics2D.OverlapCircleAll(currentTargetPosition, spellData.chainRadius);
+        foreach (var target in nearbyTargets)
+        {
+            if (target.CompareTag("Enemy") && !hitTargets.Contains(target.gameObject))
+            {
+                hitTargets.Add(target.gameObject);
+                CharacterHealth enemyHealth = target.GetComponent<CharacterHealth>();
+                if (enemyHealth != null)
+                {
+                    enemyHealth.TakeDamage(spellData.DamageAmount);
+                }
+
+                // Instantiate the next chain lightning bolt
+                GameObject nextBolt = Instantiate(spellData.spellPrefab, currentTargetPosition, Quaternion.identity);
+                ChainLightning nextChain = nextBolt.GetComponent<ChainLightning>();
+                nextChain.spellData = spellData;
+                nextChain.hitTargets = new List<GameObject>(hitTargets);
+
+                // Stretch the next bolt towards the next target
+                nextChain.StretchToTarget(currentTargetPosition, target.transform.position);
+
+                if (hitTargets.Count >= spellData.numberOfChainHits)
+                {
+                    Destroy(gameObject); // End the chain after the specified number of hits
+                }
+
+                break; // Chain to only one target at a time
+            }
+        }
+    }
+
+    private void StretchToTarget(Vector3 startPosition, Vector3 endPosition)
+    {
+        Vector3 direction = (endPosition - startPosition).normalized;
+        float distance = Vector3.Distance(startPosition, endPosition);
+
+        // Set the position to the midpoint between the start and end positions
+        transform.position = (startPosition + endPosition) / 2;
+
+        // Set the rotation to align with the direction
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
+        // Adjust the scale to stretch the lightning bolt
+        transform.localScale = new Vector3(transform.localScale.x, distance, transform.localScale.z);
     }
 }

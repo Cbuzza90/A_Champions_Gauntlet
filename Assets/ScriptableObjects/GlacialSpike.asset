@@ -17,6 +17,13 @@ MonoBehaviour:
   Speed: 10
   Cooldown: 5
   SpellRadius: 0.5
-  spellPrefab: {fileID: 0}
+  glacialSpikeChargeTime: 2
+  spellPrefab: {fileID: 264046572713869416, guid: 577ba40a781ed41468d2a01cbace9fb8, type: 3}
   icon: {fileID: 21300000, guid: a5ed007266ad6584ca9dceaafff018d4, type: 3}
   spellName: Glacial Spike
+  PoisonDamage: 0
+  PoisonTicks: 0
+  PoisonInterval: 0
+  numberOfChainHits: 4
+  chainRadius: 5
+  numberOfBolts: 3

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -12,12 +13,10 @@ public class PlayerSpellManager : MonoBehaviour
     private void Awake()
     {
         inputActions = new PlayerInputActions();
-
         inputActions.Player.SelectSpell1.performed += _ => SelectSpellSlot(0);
         inputActions.Player.SelectSpell2.performed += _ => SelectSpellSlot(1);
         inputActions.Player.SelectSpell3.performed += _ => SelectSpellSlot(2);
         inputActions.Player.SelectSpell4.performed += _ => SelectSpellSlot(3);
-
         inputActions.Player.Cast.performed += _ => CastSelectedSpell();
     }
 
@@ -54,13 +53,9 @@ public class PlayerSpellManager : MonoBehaviour
         mousePosition.z = 0;
         Vector3 direction = (mousePosition - transform.position).normalized;
 
-        if (spell.spellName == "FrostBoomerang")
+        if (spell.spellName == "ChargedBolt")
         {
-            if (playerController.FrostBoomerangeCharges > 0)
-            {
-                FrostBoomerang.CastBoomerang(spell, transform.position, transform);
-                playerController.FrostBoomerangeCharges--; // Decrement charges here
-            }
+            StartCoroutine(ShootChargedBolts(spell, direction, transform.position, mousePosition));
         }
         else
         {
@@ -80,13 +75,20 @@ public class PlayerSpellManager : MonoBehaviour
                 glacialSpike.shootDirection = direction;
             }
 
-            PoisonSpear poisonSpear = spellPrefab.GetComponent<PoisonSpear>();
-            if (poisonSpear != null)
-            {
-                poisonSpear.spellData = spell;
-            }
-
             FlipCharacter(direction.x);
+        }
+    }
+
+    private IEnumerator ShootChargedBolts(SpellScriptableObject spell, Vector3 direction, Vector3 startPosition, Vector3 targetPosition)
+    {
+        Debug.Log($"Shooting {spell.numberOfBolts} Charged Bolts.");
+        for (int i = 0; i < spell.numberOfBolts; i++)
+        {
+            Vector3 boltStartPosition = startPosition + new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), 0);
+            GameObject bolt = Instantiate(spell.spellPrefab, boltStartPosition, Quaternion.identity);
+            bolt.GetComponent<ChargedBolt>().spellData = spell;
+            bolt.GetComponent<Rigidbody2D>().velocity = (targetPosition - boltStartPosition).normalized * spell.Speed;
+            yield return new WaitForSeconds(0.0f); // Small delay between each bolt
         }
     }
 

@@ -9,6 +9,9 @@ public class PoisonSpear : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         rb.velocity = transform.right * spellData.Speed; // Assumes it faces the right direction at spawn
+
+        // Destroy the bolt after its lifespan
+        Destroy(gameObject, spellData.LifeSpan);
     }
 
     void OnTriggerEnter2D(Collider2D other)
