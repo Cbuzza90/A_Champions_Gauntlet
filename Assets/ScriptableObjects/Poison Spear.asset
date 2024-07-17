@@ -21,9 +21,9 @@ MonoBehaviour:
   spellPrefab: {fileID: 8766380256788450705, guid: 54baf519a0b0edc4ea4b09ff08f14cb6, type: 3}
   icon: {fileID: 21300000, guid: c55bb2a55379d424f8357c3248e8c65f, type: 3}
   spellName: Poison Spear
-  PoisonDamage: 8
-  PoisonTicks: 5
-  PoisonInterval: 2
+  PoisonDamage: 5
+  PoisonTicks: 6
+  PoisonInterval: 0.25
   numberOfChainHits: 4
   chainRadius: 5
   numberOfBolts: 3

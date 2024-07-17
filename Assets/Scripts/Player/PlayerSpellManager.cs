@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerSpellManager : MonoBehaviour
 {
+    public Sprite backgroundSprite;
     private PlayerInputActions inputActions;
     private PlayerStateController playerController;
     public SpellScriptableObject[] spellSlots = new SpellScriptableObject[4];
@@ -133,7 +134,15 @@ public class PlayerSpellManager : MonoBehaviour
             Image slotImage = spellSlotPanel.GetChild(i).GetComponent<Image>();
             if (slotImage != null)
             {
-                slotImage.color = (i == selectedSlot) ? Color.green : Color.white;
+                // Check if the image is not the background sprite
+                if (slotImage.sprite != backgroundSprite)
+                {
+                    slotImage.color = (i == selectedSlot) ? Color.green : Color.white;
+                }
+                else
+                {
+                    slotImage.color = Color.white;
+                }
             }
         }
     }

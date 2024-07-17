@@ -2,45 +2,50 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject[] enemyPrefabs; // Array of different enemy types
-    public Transform[] spawnPoints; // Array of spawn points
-    public float spawnInterval = 5f; // Interval between spawns
-    private float spawnTimer = 0f;
-    private bool isSpawning = true;
+    public GameObject spawningPortalPrefab; // Reference to the SpawningPortal prefab
+    public Transform topLeft; // Reference to the TopLeft corner
+    public Transform topRight; // Reference to the TopRight corner
+    public Transform bottomLeft; // Reference to the BottomLeft corner
+    public Transform bottomRight; // Reference to the BottomRight corner
 
-    void Update()
+    private void Start()
     {
-        if (isSpawning)
+        // Optionally validate if the corner references are set
+        if (topLeft == null || topRight == null || bottomLeft == null || bottomRight == null)
         {
-            spawnTimer += Time.deltaTime;
-            if (spawnTimer >= spawnInterval)
-            {
-                SpawnEnemy();
-                spawnTimer = 0f;
-            }
+            Debug.LogError("Corner references are not set in the SpawnManager.");
         }
     }
 
-    void SpawnEnemy()
+    public void SpawnPortal()
     {
-        int randomEnemyIndex = Random.Range(0, enemyPrefabs.Length);
-        int randomSpawnPointIndex = Random.Range(0, spawnPoints.Length);
-        Instantiate(enemyPrefabs[randomEnemyIndex], spawnPoints[randomSpawnPointIndex].position, Quaternion.identity);
+        Vector2 spawnPosition = GetRandomPositionWithinBounds();
+        Instantiate(spawningPortalPrefab, spawnPosition, Quaternion.identity);
     }
 
-    public void IncreaseDifficulty()
+    private Vector2 GetRandomPositionWithinBounds()
     {
-        spawnInterval = Mathf.Max(1f, spawnInterval * 0.9f); // Decrease spawn interval by 10%, minimum 1 second
-        // Additional difficulty adjustments can be added here
-    }
+        float x = Random.Range(bottomLeft.position.x, bottomRight.position.x);
+        float y = Random.Range(bottomLeft.position.y, topLeft.position.y);
 
-    public void StopSpawning()
-    {
-        isSpawning = false;
+        Vector2 randomPosition = new Vector2(x, y);
+        Debug.Log($"Generated Position: {randomPosition} within bounds: ({bottomLeft.position}), ({topRight.position})");
+
+        return randomPosition;
     }
 
     public void StartSpawning()
     {
-        isSpawning = true;
+        InvokeRepeating("SpawnPortal", 0f, 5f); // Spawns a portal every second
+    }
+
+    public void StopSpawning()
+    {
+        CancelInvoke("SpawnPortal");
+    }
+
+    public void IncreaseDifficulty()
+    {
+        // Logic for increasing difficulty
     }
 }

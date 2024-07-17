@@ -26,7 +26,6 @@ public class PoisonSpear : MonoBehaviour
                 // Start poison effect
                 enemyHealth.StartCoroutine(enemyHealth.ApplyPoison(spellData.PoisonDamage, spellData.PoisonTicks, spellData.PoisonInterval)); // Poison damage, ticks, interval
             }
-            Destroy(gameObject); // Destroy the spear after impact
         }
     }
 }

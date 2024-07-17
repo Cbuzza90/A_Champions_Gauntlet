@@ -99,11 +99,11 @@ public class PlayerAttackingState : PlayerBaseState
         {
             case BasicAttackStage.Stage1:
 
-                return 0.32f; // Duration of PlayerAttack animation
+                return 0.17f; // Duration of PlayerAttack animation
             case BasicAttackStage.Stage2:
-                return 0.32f; // Duration of PlayerAttack2 animation
+                return 0.17f; // Duration of PlayerAttack2 animation
             case BasicAttackStage.Stage3:
-                return 0.37f; // Duration of PlayerAttack3 animation
+                return 0.17f; // Duration of PlayerAttack3 animation
             default:
                 return 0f;
         }
@@ -115,7 +115,7 @@ public class PlayerAttackingState : PlayerBaseState
         if (controller.attackTransitionTimer > 0 && controller.attackTimer <= 0 && controller.attackCooldownTimer <= 0)
         {
             Debug.Log("Trying to setup next attack");
-            controller.attackCooldownTimer = 0.5f;
+            controller.attackCooldownTimer = 0.17f;
             SetupNextAttack();
         }
     }

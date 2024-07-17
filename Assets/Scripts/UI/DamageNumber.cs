@@ -14,8 +14,12 @@ public class DamageNumber : MonoBehaviour
 
     public void SetDamage(float damage)
     {
-        damageText.text = damage.ToString();
-        StartCoroutine(FadeAndMoveEffect()); // Start the fade and move effect when the damage number is set
+        if (damage > 0)
+        {
+            damageText.text = damage.ToString();
+            StartCoroutine(FadeAndMoveEffect()); // Start the fade and move effect when the damage number is set
+        }
+        
     }
 
     public void SetTarget(Transform target)
@@ -28,7 +32,7 @@ public class DamageNumber : MonoBehaviour
         if (targetTransform != null)
         {
             // Convert the target's position to screen space
-            Vector3 screenPosition = Camera.main.WorldToScreenPoint(targetTransform.position + new Vector3(2.3f, 0.5f, 0));
+            Vector3 screenPosition = Camera.main.WorldToScreenPoint(targetTransform.position + new Vector3(1f, -0.5f, 0));
             transform.position = screenPosition;
         }
     }
@@ -38,7 +42,6 @@ public class DamageNumber : MonoBehaviour
         float duration = 0.5f; // Duration of the effect
         float elapsedTime = 0f;
         Vector3 startPosition = transform.localPosition;
-        Vector3 endPosition = startPosition + new Vector3(0, 50, 0); // Move upwards
 
         Color startColor = damageText.color;
         Color endColor = new Color(startColor.r, startColor.g, startColor.b, 0); // Fade to transparent
@@ -54,7 +57,7 @@ public class DamageNumber : MonoBehaviour
             // Update position relative to the target's screen position
             if (targetTransform != null)
             {
-                Vector3 screenPosition = Camera.main.WorldToScreenPoint(targetTransform.position + new Vector3(2.3f, -0.5f, 0));
+                Vector3 screenPosition = Camera.main.WorldToScreenPoint(targetTransform.position + new Vector3(1f, -0.5f, 0));
                 transform.position = screenPosition + new Vector3(0, 50 * t, 0);
             }
 

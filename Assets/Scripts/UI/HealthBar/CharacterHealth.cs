@@ -14,6 +14,7 @@ public class CharacterHealth : MonoBehaviour
     private Rigidbody2D rb; // Rigidbody2D component
     private Coroutine poisonCoroutine; // To manage poison effect coroutine
     private bool isPoisoned = false; // To track if the character is currently poisoned
+    private PlayerHealth playerHealth; // Reference to the player's health
 
     private void Start()
     {
@@ -26,6 +27,9 @@ public class CharacterHealth : MonoBehaviour
 
         // Get the HealthBarSlider component from the instantiated health bar
         healthBar = healthBarObject.GetComponent<HealthBarSlider>();
+
+        // Get the player's health component
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
     }
 
     private void Update()
@@ -41,7 +45,10 @@ public class CharacterHealth : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         // Display damage number
-        ShowDamageNumber(damage);
+        if (currentHealth > 0)
+        {
+            ShowDamageNumber(damage);
+        }
 
         // Manually apply knockback for kinematic Rigidbody2D
         if (rb != null && rb.isKinematic && knockbackForce > 0)
@@ -68,22 +75,25 @@ public class CharacterHealth : MonoBehaviour
             return;
         }
 
-        GameObject damageNumberObject = Instantiate(damageNumberPrefab, transform.position, Quaternion.identity);
-        Debug.Log("Instantiated damage number prefab.");
-
-        // Set the parent to the canvas
-        damageNumberObject.transform.SetParent(GameObject.Find("DamageCanvas").transform, false);
-
-        DamageNumber damageNumber = damageNumberObject.GetComponent<DamageNumber>();
-        if (damageNumber == null)
+        if (currentHealth > 0 && healthBarObject)
         {
-            Debug.LogError("DamageNumber component not found on damageNumberPrefab.");
-            Destroy(damageNumberObject);
-            return;
-        }
+            GameObject damageNumberObject = Instantiate(damageNumberPrefab, transform.position, Quaternion.identity);
+            Debug.Log("Instantiated damage number prefab.");
 
-        damageNumber.SetDamage(damage);
-        damageNumber.SetTarget(transform); // Set the target to this enemy
+            // Set the parent to the canvas
+            damageNumberObject.transform.SetParent(GameObject.Find("DamageCanvas").transform, false);
+            DamageNumber damageNumber = damageNumberObject.GetComponent<DamageNumber>();
+
+            if (damageNumber == null)
+            {
+                Debug.LogError("DamageNumber component not found on damageNumberPrefab.");
+                Destroy(damageNumberObject);
+                return;
+            }
+
+            damageNumber.SetDamage(damage);
+            damageNumber.SetTarget(transform); // Set the target to this enemy
+        }
     }
 
     public IEnumerator ApplyPoison(float poisonDamage, int ticks, float tickInterval)
@@ -125,8 +135,20 @@ public class CharacterHealth : MonoBehaviour
 
     private void Die()
     {
+        // Award experience to the player when this enemy dies
+        if (playerHealth != null)
+        {
+            playerHealth.GainExperience(GetExperiencePoints());
+        }
+
         // Handle death (destroy the game object, play animation, etc.)
         Destroy(gameObject);
         Destroy(healthBarObject);
+    }
+
+    public int GetExperiencePoints()
+    {
+        // Return the experience points awarded by this enemy
+        return 10; // Adjust this value as needed
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd94aa7c41d6ac4fbc2706bbff8c560, type: 3}
   m_Name: FrostBoomerang
   m_EditorClassIdentifier: 
-  DamageAmount: 10
+  DamageAmount: 20
   LifeSpan: 5
   Speed: 6
   Cooldown: 5
