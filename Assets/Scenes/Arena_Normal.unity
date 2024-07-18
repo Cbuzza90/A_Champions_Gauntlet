@@ -1845,6 +1845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  currentHealth: 0
   healthBar: {fileID: 7205623953496806305}
   experienceBar: {fileID: 1977398888}
 --- !u!1 &519420028
@@ -10521,7 +10522,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6659852516789727854, guid: a245545b10a0dd2479dd558c6910f9ba, type: 3}
       propertyPath: m_Value
-      value: 0.907
+      value: 0.263
       objectReference: {fileID: 0}
     - target: {fileID: 6659852516789727855, guid: a245545b10a0dd2479dd558c6910f9ba, type: 3}
       propertyPath: m_Pivot.x

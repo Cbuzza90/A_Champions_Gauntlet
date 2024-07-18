@@ -99,11 +99,11 @@ public class PlayerAttackingState : PlayerBaseState
         {
             case BasicAttackStage.Stage1:
 
-                return 0.17f; // Duration of PlayerAttack animation
+                return 0.3f; // Duration of PlayerAttack animation
             case BasicAttackStage.Stage2:
-                return 0.17f; // Duration of PlayerAttack2 animation
+                return 0.3f; // Duration of PlayerAttack2 animation
             case BasicAttackStage.Stage3:
-                return 0.17f; // Duration of PlayerAttack3 animation
+                return 0.32f; // Duration of PlayerAttack3 animation
             default:
                 return 0f;
         }
