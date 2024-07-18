@@ -4,7 +4,7 @@ using System.Collections;
 public class SpawningPortal : MonoBehaviour
 {
     public GameObject[] enemyPrefabs; // Array of different enemy types
-    public float spawnInterval = 1f; // Interval between spawns
+    public float spawnInterval = 2551f; // Interval between spawns
     public float spawnDuration = 15f; // Duration of spawning
     private float spawnTimer = 0f; // Timer to keep track of spawning
     private bool isSpawning = true;

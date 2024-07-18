@@ -13,7 +13,7 @@ public class GameTimer : MonoBehaviour
     void Start()
     {
         UpdateTimerDisplay();
-        spawnManager.StartSpawning(); // Start the spawning process
+        //spawnManager.StartSpawning(); // Start the spawning process
     }
 
     void Update()
