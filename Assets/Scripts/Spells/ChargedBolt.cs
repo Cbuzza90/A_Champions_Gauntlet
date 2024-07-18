@@ -15,27 +15,34 @@ public class ChargedBolt : MonoBehaviour
         targetPosition.z = 0;
         Vector3 direction = (targetPosition - transform.position).normalized;
 
-        // Set initial velocity
         rb.velocity = direction * spellData.Speed;
-
-        // Destroy the bolt after its lifespan
         Destroy(gameObject, spellData.LifeSpan);
     }
 
     void Update()
     {
-        // Add some erratic movement
         rb.velocity += new Vector2(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy") || other.CompareTag("Boss"))
         {
-            CharacterHealth enemyHealth = other.GetComponent<CharacterHealth>();
-            if (enemyHealth != null)
+            if (other.CompareTag("Enemy"))
             {
-                enemyHealth.TakeDamage(spellData.DamageAmount);
+                CharacterHealth enemyHealth = other.GetComponent<CharacterHealth>();
+                if (enemyHealth != null)
+                {
+                    enemyHealth.TakeDamage(spellData.DamageAmount);
+                }
+            }
+            else if (other.CompareTag("Boss"))
+            {
+                IceGolemBossController bossController = other.GetComponent<IceGolemBossController>();
+                if (bossController != null)
+                {
+                    bossController.TakeDamage(spellData.DamageAmount);
+                }
             }
             Destroy(gameObject);
         }

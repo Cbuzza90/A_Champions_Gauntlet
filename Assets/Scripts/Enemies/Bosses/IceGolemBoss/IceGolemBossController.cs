@@ -1,39 +1,66 @@
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class IceGolemBossController : MonoBehaviour
 {
-    public float health = 100f;
-    private StayWithinRangeState stayWithinRangeState;
+    public float maxHealth = 1500f;
+    private float currentHealth;
+    public string bossName = "Ice Golem";
 
-    void Start()
-    {
-        stayWithinRangeState = GetComponent<StayWithinRangeState>();
-    }
+    public Slider healthBarSlider;
+    public TMP_Text bossNameText;
+    public TMP_Text bossHealthPoolText;
 
-    void Update()
+    private void Start()
     {
-        // Here you can manage transitions between states if needed
-        // For now, we just enable the StayWithinRange state
-        stayWithinRangeState.enabled = true;
+        currentHealth = maxHealth;
+        healthBarSlider.maxValue = maxHealth;
+        healthBarSlider.value = currentHealth;
+        bossNameText.text = bossName;
+        UpdateHealthPoolText();
     }
 
     public void TakeDamage(float amount)
     {
-        health -= amount;
-        if (health <= 0)
+        currentHealth -= amount;
+        if (currentHealth < 0)
+        {
+            currentHealth = 0;
+        }
+
+        healthBarSlider.value = currentHealth;
+        UpdateHealthPoolText();
+
+        if (currentHealth <= 0)
         {
             Die();
         }
     }
 
-    void Die()
+    private void UpdateHealthPoolText()
     {
-        // Handle boss death (e.g., play animation, destroy object, etc.)
+        bossHealthPoolText.text = $"{currentHealth}/{maxHealth}";
+    }
+
+    private void Die()
+    {
         Destroy(gameObject);
     }
 
-    public void StayWithinRangeStateEnabled(bool enabled)
+    private void OnValidate()
     {
-        stayWithinRangeState.enabled = enabled;
+        if (healthBarSlider != null)
+        {
+            healthBarSlider.maxValue = maxHealth;
+            healthBarSlider.value = currentHealth;
+        }
+
+        if (bossNameText != null)
+        {
+            bossNameText.text = bossName;
+        }
+
+        UpdateHealthPoolText();
     }
 }
