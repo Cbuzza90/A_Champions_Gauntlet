@@ -445,7 +445,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0/1500
+  m_text: 0 / 3500
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -820,7 +820,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &257467010
 MonoBehaviour:
@@ -2045,7 +2045,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &457797647
 MonoBehaviour:
@@ -2196,7 +2196,7 @@ Transform:
   - {fileID: 1302592197}
   - {fileID: 1961636074}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &511506246
 Animator:
@@ -2440,7 +2440,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7
+  orthographic size: 9
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -9817,7 +9817,7 @@ Transform:
   - {fileID: 184866926}
   - {fileID: 1200210409}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1376017082
 GameObject:
@@ -9852,7 +9852,7 @@ Transform:
   - {fileID: 293783832}
   - {fileID: 1509325931}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1406051801
 GameObject:
@@ -10601,7 +10601,7 @@ RectTransform:
   - {fileID: 1672003054}
   - {fileID: 1203975478}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -10792,7 +10792,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1500
+  m_MaxValue: 3500
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -11096,6 +11096,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1609056429663804447, guid: 2736a27af94b2c6499135801d4b509c0, type: 3}
   m_PrefabInstance: {fileID: 1162597080}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1816408877
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1816408878}
+  m_Layer: 7
+  m_Name: IceBallSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1816408878
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816408877}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.71099997, y: 1.6419997, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2018967518}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1836606288
 GameObject:
   m_ObjectHideFlags: 0
@@ -11516,7 +11547,7 @@ MonoBehaviour:
   m_Follow: {fileID: 511506245}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 7
+    OrthographicSize: 9
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -11546,7 +11577,7 @@ Transform:
   m_Children:
   - {fileID: 562620721}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1977398885
 GameObject:
@@ -11795,6 +11826,7 @@ Transform:
   - {fileID: 351973017}
   - {fileID: 1621790926}
   - {fileID: 189153359}
+  - {fileID: 1816408878}
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11810,11 +11842,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfd132177ecff6245b9433397b0a8d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1500
+  maxHealth: 3500
   bossName: Ice Golem
   healthBarSlider: {fileID: 1672003055}
   bossNameText: {fileID: 1492733429}
   bossHealthPoolText: {fileID: 130528823}
+  iceBallPrefab: {fileID: 8382687440591008478, guid: 620784c16437c3c4bb92848f90acde3d, type: 3}
+  numberOfIceBalls: 6
+  maxRadius: 10
+  minRadius: 3
+  respawnDelay: 30
+  rotationSpeed: 30
+  radiusChangeSpeed: 1
 --- !u!114 &2018967521
 MonoBehaviour:
   m_ObjectHideFlags: 0

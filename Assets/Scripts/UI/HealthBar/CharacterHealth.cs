@@ -9,6 +9,8 @@ public class CharacterHealth : MonoBehaviour
     public GameObject healthBarPrefab; // Reference to the health bar prefab
     public GameObject damageNumberPrefab; // Reference to the damage number prefab
 
+    public int experiencePoints = 10; // Experience points awarded upon death, editable in the editor
+
     private HealthBarSlider healthBar; // Reference to the health bar script
     private GameObject healthBarObject; // Reference to the instantiated health bar object
     private Rigidbody2D rb; // Rigidbody2D component
@@ -71,7 +73,7 @@ public class CharacterHealth : MonoBehaviour
 
         if (damageNumberPrefab == null)
         {
-            Debug.LogError("damageNumberPrefab is not assigned in CharacterHealth.");
+            Debug.LogError("Damage number prefab is not assigned in CharacterHealth.");
             return;
         }
 
@@ -86,7 +88,7 @@ public class CharacterHealth : MonoBehaviour
 
             if (damageNumber == null)
             {
-                Debug.LogError("DamageNumber component not found on damageNumberPrefab.");
+                Debug.LogError("DamageNumber component not found on damage number prefab.");
                 Destroy(damageNumberObject);
                 return;
             }
@@ -96,7 +98,7 @@ public class CharacterHealth : MonoBehaviour
         }
     }
 
-    public IEnumerator ApplyPoison(float poisonDamage, int ticks, float tickInterval)
+    public IEnumerator ApplyPoison(float poisonDamage, int ticks, float tickInterval) //Leave public
     {
         if (isPoisoned)
         {
@@ -138,7 +140,7 @@ public class CharacterHealth : MonoBehaviour
         // Award experience to the player when this enemy dies
         if (playerHealth != null)
         {
-            playerHealth.GainExperience(GetExperiencePoints());
+            playerHealth.GainExperience(experiencePoints);
         }
 
         // Handle death (destroy the game object, play animation, etc.)
@@ -149,6 +151,6 @@ public class CharacterHealth : MonoBehaviour
     public int GetExperiencePoints()
     {
         // Return the experience points awarded by this enemy
-        return 10; // Adjust this value as needed
+        return experiencePoints;
     }
 }
